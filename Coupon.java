@@ -9,21 +9,21 @@ import me.onebone.economyapi.EconomyAPI;
 
 public class Coupon extends PluginBase implements Listener{
 	
-		public Config config;
-		public Config reward;
+	public Config config;
+	public Config reward;
 		
-		@Override
-   public void onEnable() {
-     this.getServer().getPluginManager().registerEvents(this,this);
-     getDataFolder().mkdirs();
-     config=new (getDataFolder()+"config.yml",Config.YAML);
-     reward=new (getDataFolder()+"reward.yml",Config.YAML);
+	@Override
+	public void onEnable() {
+	this.getServer().getPluginManager().registerEvents(this,this);
+	this.getDataFolder().mkdirs();
+     this.config=new Config(getDataFolder()+"/config.yml",Config.YAML);
+     this.reward=new Config(getDataFolder()+"/reward.yml",Config.YAML);
    }
    
    @Override
    public void onDisable(){
-   		config.save();
-   		reward.save();
+   	config.save();
+   	reward.save();
    }
    
    @Override
