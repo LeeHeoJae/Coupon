@@ -34,20 +34,21 @@ public class Coupon extends PluginBase implements Listener{
    				switch(args[0]){
    					case "생성":
    					if(player.isOp()){
-   						if(!args[1]||!args[2]){
+	//args는 boolean형을 가지고 있지 않게 떄문에 위와같이 따로 비교연산자를 달아주어야 합니다
+   						if(args.length < 2){
    							player.sendMessage("[쿠폰] /쿠폰 <생성> <쿠폰 번호> <보상>");
-   							return;
+   							return true;
    						}
-   						if(config.get(args[1]).equals(null)){
+   						//따로 변수를 선언하여 관리하는것이 가독성에도 도움을 줍니다
+   						String coupon = args[1];
+   						String money = args[2];
+   						if(config.exists(coupon)){
    							player.sendMessage("[쿠폰] 이미 있는 쿠폰입니다.");
-   							return;
+   							return true;
    						}
-   						List<Integer> list = new ArrayList<Integer>()
-   						list.add(sender->getName());
-   						reward.set(args[1],list);
-   						config.set(args[1],args[2]);
-   						player.sendMessage("[쿠폰] 쿠폰이 생성되었습니다.");
-   						break;
+   						List<Integer> list = new ArrayList<Integer>();
+   						reward.set(coupon,list);
+   						config.set(coupon,money);
    					}
    					player.sendMessage("[쿠폰] 오직 오피만 가능한 명령어 입니다.");
    					return;
