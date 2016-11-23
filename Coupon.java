@@ -2,9 +2,12 @@ package sabone;
 
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.event.Listener;
-import cn.nukkit.utils.Config;
+
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.Player;
+import cn.nukkit.utils.Config;
+
 import me.onebone.economyapi.EconomyAPI;
 
 public class Coupon extends PluginBase implements Listener{
