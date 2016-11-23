@@ -5,6 +5,7 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.utils.Config;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.Player;
 import me.onebone.economyapi.EconomyAPI;
 
 public class Coupon extends PluginBase implements Listener{
@@ -15,9 +16,9 @@ public class Coupon extends PluginBase implements Listener{
 		@Override
    public void onEnable() {
      this.getServer().getPluginManager().registerEvents(this,this);
-     getDataFolder().mkdirs();
-     config=new (getDataFolder()+"config.yml",Config.YAML);
-     reward=new (getDataFolder()+"reward.yml",Config.YAML);
+     this.getDataFolder().mkdirs();
+     this.config=new Config(getDataFolder()+"config.yml",Config.YAML);
+     this.reward=new Config(getDataFolder()+"reward.yml",Config.YAML);
    }
    
    @Override
@@ -29,40 +30,40 @@ public class Coupon extends PluginBase implements Listener{
    @Override
    public boolean onCommand(CommandSender sender,Command cmd,String label,String[] args){
    		Player player = (Player)sender;
+   		String coupon=args[1];
+   		String reward=args[2];
    		if(player.hasPermission("sabone.coupon"){
    			if(cmd.equals("쿠폰")){
    				switch(args[0]){
    					case "생성":
    					if(player.isOp()){
-   						if(!args[1]||!args[2]){
+   						if(args.length<2){
    							player.sendMessage("[쿠폰] /쿠폰 <생성> <쿠폰 번호> <보상>");
-   							return;
+   							return true;
    						}
-   						if(config.get(args[1]).equals(null)){
+   						if(config.exists(coupon)){
    							player.sendMessage("[쿠폰] 이미 있는 쿠폰입니다.");
-   							return;
+   							return true;
    						}
    						List<Integer> list = new ArrayList<Integer>()
-   						list.add(sender->getName());
    						reward.set(args[1],list);
    						config.set(args[1],args[2]);
    						player.sendMessage("[쿠폰] 쿠폰이 생성되었습니다.");
-   						break;
    					}
    					player.sendMessage("[쿠폰] 오직 오피만 가능한 명령어 입니다.");
-   					return;
+   					break;
    					case "입력":
    					if(!args[1]){
    						player.sendMessage("[쿠폰] /쿠폰 <입력> <코드>");
-   						return;
+   						break;
    					}
    					if(!config.get(args[1])){
    						player.sendMessage("[쿠폰] 그런 쿠폰 코드는 없습니다.");
-   						return;
+   						break;
    					}
    					if(reward.get(args[1]).contains(player.getName())){
    						player.sendMessage("[쿠폰] 이미 사용한 쿠폰입니다.");
-   						return;
+   						break;
    					}
    					List<Integer> List = new ArrayList<Integer>();
    					list.put(player.getName());
@@ -86,10 +87,10 @@ public class Coupon extends PluginBase implements Listener{
    					default;
    					if(!player.isOp()){
    						player.sendMessage("[쿠폰] /쿠폰 <입력> <코드>");
-   						return;
+   						break;
    					}
    					player.sendMessage("[쿠폰] /쿠폰 <입력||생성||삭제>");
-   					return;
+   					break;
    			}
    		}
    }
