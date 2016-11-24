@@ -46,14 +46,14 @@ public class Coupon extends PluginBase implements Listener{
    							return true;
    						}
    						List<Integer> list = new ArrayList<Integer>()
-   						reward.set(args[1],list);
-   						config.set(args[1],args[2]);
+   						reward.set(coupon,list);
+   						config.set(coupon,reward);
    						player.sendMessage("[쿠폰] 쿠폰이 생성되었습니다.");
    					}
    					player.sendMessage("[쿠폰] 오직 오피만 가능한 명령어 입니다.");
    					break;
    					case "입력":
-   					if(!args[1]){
+   					if(coupon == null || coupon.equals("")){
    						player.sendMessage("[쿠폰] /쿠폰 <입력> <코드>");
    						break;
    					}
