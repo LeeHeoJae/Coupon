@@ -36,6 +36,11 @@ public class Coupon extends PluginBase implements Listener{
    			if(cmd.equals("쿠폰")){
    				switch(args[0]){
    					case "생성":
+   					case "추가":
+   					case "add":
+   					case "a":
+   					case "create":
+   					case "c":
    					if(player.isOp()){
    						if(args.length<2){
    							player.sendMessage("[쿠폰] /쿠폰 <생성> <쿠폰 번호> <보상>");
@@ -51,47 +56,53 @@ public class Coupon extends PluginBase implements Listener{
    						player.sendMessage("[쿠폰] 쿠폰이 생성되었습니다.");
    					}
    					player.sendMessage("[쿠폰] 오직 오피만 가능한 명령어 입니다.");
-   					break;
+   					return true;
    					case "입력":
+   					case "enter":
+   					case "e":
    					if(!args[1]){
    						player.sendMessage("[쿠폰] /쿠폰 <입력> <코드>");
-   						break;
+   						return true;
    					}
    					if(!config.get(args[1])){
    						player.sendMessage("[쿠폰] 그런 쿠폰 코드는 없습니다.");
-   						break;
+   						return true;
    					}
    					if(reward.get(args[1]).contains(player.getName())){
    						player.sendMessage("[쿠폰] 이미 사용한 쿠폰입니다.");
-   						break;
+   						return true;
    					}
    					List<Integer> List = new ArrayList<Integer>();
    					list.put(player.getName());
    					reward.set(args[1],player.getName());
    					player.sendMessage("[쿠폰] 쿠폰을 입력하였습니다. 쿠폰 :"+args[1]);
    					EconomyAPI.getInstance().addMoney(player,config.get(args[1]));
-   					break;
+   					return true;
    					case "삭제":
+   					case "delete"
+   					case "d":
+   					case "remove":
+   					case "r":
    					if(!player.isOp()){
    						player.sendMessage("[쿠폰] 오피만 가능한 명령어입니다.");
-   						break;
+   						return true;
    					}
    					if(!args[1]){
    						player.sendMessage("[쿠폰] 삭제할 코드를 입력해주세요.");
-   						break;
+   						return true;
    					}
    					config.remove(args[1]);
    					player.sendMessage("[쿠폰] 쿠폰을 삭제했습니다. 쿠폰 : "+args[1]);
    					reward.remove(args[1]);
-   					break;
-   					default;
+   					return true;
+   					default:
    					if(!player.isOp()){
    						player.sendMessage("[쿠폰] /쿠폰 <입력> <코드>");
-   						break;
+   						return true;
    					}
-   					player.sendMessage("[쿠폰] /쿠폰 <입력||생성||삭제>");
-   					break;
+   					player.sendMessage("[쿠폰] /쿠폰 <입력(E)||생성(C)||삭제(D)>");
+   					return true;
    			}
    		}
    }
-}
+ }
