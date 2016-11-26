@@ -7,6 +7,7 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.Player;
 import me.onebone.economyapi.EconomyAPI;
+import java.util.List;
 
 public class Coupon extends PluginBase implements Listener{
 	
@@ -32,7 +33,8 @@ public class Coupon extends PluginBase implements Listener{
    		Player player = (Player)sender;
    		String coupon=args[1];
    		String reward=args[2];
-   		if(player.hasPermission("sabone.coupon"){
+   		List<Integer> list = new ArrayList<Integer>();
+   		if(player.hasPermission("me.sabone.coupon")){
    			if(cmd.equals("쿠폰")){
    				switch(args[0]){
    					case "생성":
@@ -50,9 +52,8 @@ public class Coupon extends PluginBase implements Listener{
    							player.sendMessage("[쿠폰] 이미 있는 쿠폰입니다.");
    							return true;
    						}
-   						List<Integer> list = new ArrayList<Integer>()
-   						reward.set(args[1],list);
-   						config.set(args[1],args[2]);
+   						reward.set(coupon,list);
+   						config.set(coupon,reward);
    						player.sendMessage("[쿠폰] 쿠폰이 생성되었습니다.");
    					}
    					player.sendMessage("[쿠폰] 오직 오피만 가능한 명령어 입니다.");
@@ -60,26 +61,25 @@ public class Coupon extends PluginBase implements Listener{
    					case "입력":
    					case "enter":
    					case "e":
-   					if(!args[1]){
+   					if(coupon==null || coupon.equals(" ")){
    						player.sendMessage("[쿠폰] /쿠폰 <입력> <코드>");
    						return true;
    					}
-   					if(!config.get(args[1])){
+   					if(!config.get(coupon)){
    						player.sendMessage("[쿠폰] 그런 쿠폰 코드는 없습니다.");
    						return true;
    					}
-   					if(reward.get(args[1]).contains(player.getName())){
+   					if(reward.get(coupon).contains(player.getName())){
    						player.sendMessage("[쿠폰] 이미 사용한 쿠폰입니다.");
    						return true;
    					}
-   					List<Integer> List = new ArrayList<Integer>();
    					list.put(player.getName());
-   					reward.set(args[1],player.getName());
-   					player.sendMessage("[쿠폰] 쿠폰을 입력하였습니다. 쿠폰 :"+args[1]);
-   					EconomyAPI.getInstance().addMoney(player,config.get(args[1]));
+   					reward.set(coupon,player.getName());
+   					player.sendMessage("[쿠폰] 쿠폰을 입력하였습니다. 쿠폰 :"+coupon);
+   					EconomyAPI.getInstance().addMoney(player,config.get(coupon));
    					return true;
    					case "삭제":
-   					case "delete"
+   					case "delete":
    					case "d":
    					case "remove":
    					case "r":
@@ -87,13 +87,13 @@ public class Coupon extends PluginBase implements Listener{
    						player.sendMessage("[쿠폰] 오피만 가능한 명령어입니다.");
    						return true;
    					}
-   					if(!args[1]){
+   					if(coupon==null||coupon.equals(" ")){
    						player.sendMessage("[쿠폰] 삭제할 코드를 입력해주세요.");
    						return true;
    					}
-   					config.remove(args[1]);
-   					player.sendMessage("[쿠폰] 쿠폰을 삭제했습니다. 쿠폰 : "+args[1]);
-   					reward.remove(args[1]);
+   					config.remove(coupon);
+   					player.sendMessage("[쿠폰] 쿠폰을 삭제했습니다. 쿠폰 : "+coupon);
+   					reward.remove(coupon);
    					return true;
    					default:
    					if(!player.isOp()){
@@ -106,3 +106,4 @@ public class Coupon extends PluginBase implements Listener{
    		}
    }
  }
+}
